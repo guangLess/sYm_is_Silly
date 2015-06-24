@@ -12,6 +12,8 @@
 
 @interface ViewController : UIViewController
 
+@property (strong, nonatomic) UIScreen* mainUI;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageC;//c
 @property (weak, nonatomic) IBOutlet UIImageView *imageD;//d
 
@@ -45,7 +47,7 @@
 @property CGFloat elfOx;
 @property CGFloat elfOy;
 
-@property CGPoint rA;
+//@property CGPoint rA;
 
 @property (strong, nonatomic) UIBezierPath * path;
 @property (strong, nonatomic) CAShapeLayer * shapeLayer;

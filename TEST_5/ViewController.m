@@ -15,6 +15,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     [self creatTimer];
     self.imageA = [[UIImageView alloc]init];
     self.imageB = [[UIImageView alloc]init];
@@ -31,9 +33,13 @@
     self.imageHomD = [[UIImageView alloc]init];
     
     self.monster = [[UIImageView alloc]init];
+        self.w = self.view.frame.size.width;
+        self.h = self.view.frame.size.height;
+//    if (UIInterfaceOrientationIsPortrait){
+//            self.w = self.view.frame.size.width;
+//            self.h = self.view.frame.size.height;
+//    }
 
-    self.w = self.view.frame.size.width;
-    self.h = self.view.frame.size.height;
 
     //self.rulerBox = [[UIImageView alloc]init];
     //[self.view addSubview:self.rulerBox];
@@ -43,6 +49,21 @@
     [self.view.layer addSublayer:self.shapeLayer];
     
    }
+
+-(void) viewWillAppear:(BOOL)animated {
+
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+
+    self.mainUI = [UIScreen mainScreen];
+    CGRect mainUISize = self.mainUI.bounds;
+    self.w = mainUISize.size.width;
+    self.h = mainUISize.size.height;
+    
+    NSLog(@"mainUI Screen is Ox=%f, Oy=%f, W=%f, H=%f", self.mainUI.bounds.origin.x,mainUISize.origin.y, mainUISize.size.width,mainUISize.size.height);
+    
+}
 
 -(void)uibezer{
 
@@ -55,9 +76,7 @@
     self.shapeLayer.fillColor = [UIColor blackColor].CGColor;
 }
 
--(void) viewDidAppear:(BOOL)animated {
 
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -67,10 +86,12 @@
     
     [self.cv setNeedsDisplay];
     CGPoint translation = [recognizer translationInView:self.view];
+    //CGPoint translation = [recognizer translationInView:self.mainUI];
+
     recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
                                          recognizer.view.center.y + translation.y );
 
-    self.rA = recognizer.view.frame.origin;
+    //self.rA = recognizer.view.frame.origin;
     [self.bird removeFromSuperview];
     
     self.bird = [[UIImageView alloc]initWithFrame:CGRectMake(recognizer.view.frame.origin.x-100, recognizer.view.frame.origin.y -40,100,100)];
@@ -104,6 +125,7 @@
 
     self.cv.ww = self.w-tempBlueOx;
     self.cv.wh = self.h-tempBlueOy;
+    
     [self drawRectWith:self.w-tempBlueOy*r1 H:self.h-tempBlueOx*r2 Color:[UIColor blueColor] inView:self.imageHomD];
     [self drawRectWith:self.w-tempBlueOy*r1 H:tempBlueOx*r2 Color:[UIColor blueColor] inView:self.imageHomB];
     [self drawRectWith:tempBlueOy*r1 H:self.h-tempBlueOx*r2 Color:[UIColor blueColor] inView:self.imageHomC];
@@ -174,8 +196,7 @@
     self.currentTimeInSeconds++;
     NSLog(@"%d",self.currentTimeInSeconds);
     NSLog (@" TIMER [ %@ ]",[self formattedTime:_currentTimeInSeconds]);
-    [self performSelector:@selector(closeApp) withObject:nil afterDelay:49.0];
-
+    [self performSelector:@selector(closeApp) withObject:nil afterDelay:45.0];
 }
 
 -(void)alert{
@@ -183,10 +204,9 @@
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Don't be greedy"
                                                                        message:@":D silly, you do not need to spend more time on another sillyness!"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"bye - WTF" style:UIAlertActionStyleDefault
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"goodbye - go do something else" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
                                                                   [self exit];
-
                                                               }];
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
