@@ -6,6 +6,9 @@ A funky mathematical symmetry based, one-page game, build with objective C.
 This app turns itself off after one minutes. 
 It is a reminder of its silliness is not worth of more than one minute of human attention.
 
+<img src="./TEST_5/images/iOS Simulator Screen Shot Jul 9, 2015, 12.36.31 PM.png" width="320">
+<img src="./TEST_5/images/iOS Simulator Screen Shot Jul 9, 2015, 12.36.49 PM.png" width="320">
+
 Code: 
 
 It is an awesome excise for the following methods. 
