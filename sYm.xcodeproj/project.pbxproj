@@ -45,6 +45,7 @@
 		AAEF13451B1FB768001CA805 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAEF13441B1FB768001CA805 /* Images.xcassets */; };
 		AAEF13481B1FB768001CA805 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAEF13461B1FB768001CA805 /* LaunchScreen.xib */; };
 		AAEF13541B1FB768001CA805 /* TEST_5Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAEF13531B1FB768001CA805 /* TEST_5Tests.m */; };
+		AAF5B6841B4ED05F009BD239 /* triangle_oooh_2.png in Resources */ = {isa = PBXBuildFile; fileRef = AAF5B6831B4ED05F009BD239 /* triangle_oooh_2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		AAEF134D1B1FB768001CA805 /* sYmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sYmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAEF13521B1FB768001CA805 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAEF13531B1FB768001CA805 /* TEST_5Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TEST_5Tests.m; sourceTree = "<group>"; };
+		AAF5B6831B4ED05F009BD239 /* triangle_oooh_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = triangle_oooh_2.png; path = images/triangle_oooh_2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				AAEEC0EF1B3C5CFF00F72887 /* images */,
+				AAF5B6831B4ED05F009BD239 /* triangle_oooh_2.png */,
 				AAE474BC1B2741490080B3B2 /* contextView.h */,
 				AAE474BD1B2741490080B3B2 /* contextView.m */,
 				AAEF133B1B1FB768001CA805 /* AppDelegate.h */,
@@ -330,6 +333,7 @@
 				AAEEC1231B3C5D5C00F72887 /* tmp-3.gif in Resources */,
 				AAEEC1201B3C5D5C00F72887 /* tmp-0.gif in Resources */,
 				AAEEC1281B3C5D5C00F72887 /* tmp-8.gif in Resources */,
+				AAF5B6841B4ED05F009BD239 /* triangle_oooh_2.png in Resources */,
 				AAEF13451B1FB768001CA805 /* Images.xcassets in Resources */,
 				AAEEC1171B3C5D5C00F72887 /* monster-8.png in Resources */,
 				AAEEC1211B3C5D5C00F72887 /* tmp-1.gif in Resources */,
@@ -485,6 +489,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TEST_5/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = sYm;
 			};
@@ -495,6 +500,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TEST_5/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = sYm;
 			};

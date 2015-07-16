@@ -35,14 +35,7 @@
     self.monster = [[UIImageView alloc]init];
         self.w = self.view.frame.size.width;
         self.h = self.view.frame.size.height;
-//    if (UIInterfaceOrientationIsPortrait){
-//            self.w = self.view.frame.size.width;
-//            self.h = self.view.frame.size.height;
-//    }
 
-
-    //self.rulerBox = [[UIImageView alloc]init];
-    //[self.view addSubview:self.rulerBox];
     
     self.path = [UIBezierPath bezierPath];
     self.shapeLayer = [CAShapeLayer layer];
@@ -56,11 +49,11 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 
+
     self.mainUI = [UIScreen mainScreen];
     CGRect mainUISize = self.mainUI.bounds;
     self.w = mainUISize.size.width;
     self.h = mainUISize.size.height;
-    
     NSLog(@"mainUI Screen is Ox=%f, Oy=%f, W=%f, H=%f", self.mainUI.bounds.origin.x,mainUISize.origin.y, mainUISize.size.width,mainUISize.size.height);
     
 }
@@ -72,7 +65,7 @@
     [self.path addLineToPoint:CGPointMake(self.cv.lin2Ox, self.cv.lin2Oy)];
     self.shapeLayer.path = self.path.CGPath;
     self.shapeLayer.strokeColor = [UIColor yellowColor].CGColor;
-    self.shapeLayer.lineWidth = 10.0;
+    self.shapeLayer.lineWidth = 11.0;
     self.shapeLayer.fillColor = [UIColor blackColor].CGColor;
 }
 
@@ -86,12 +79,9 @@
     
     [self.cv setNeedsDisplay];
     CGPoint translation = [recognizer translationInView:self.view];
-    //CGPoint translation = [recognizer translationInView:self.mainUI];
-
     recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
                                          recognizer.view.center.y + translation.y );
 
-    //self.rA = recognizer.view.frame.origin;
     [self.bird removeFromSuperview];
     
     self.bird = [[UIImageView alloc]initWithFrame:CGRectMake(recognizer.view.frame.origin.x-100, recognizer.view.frame.origin.y -40,100,100)];
@@ -164,7 +154,7 @@
 
 -(void)drawCC: (CGFloat)monsterX Y:(CGFloat)monsterY inView:(UIImageView*)inView{
    
-    inView.frame = CGRectMake(monsterX,monsterY, 70, 70);
+    inView.frame = CGRectMake(monsterX,monsterY, 50, 50);
     NSMutableArray * images = [[NSMutableArray alloc]init];
     for (int i = 1 ; i < 5 ; i++){
      NSString *imageName = [NSString stringWithFormat:@"monster-%i.png", i];
@@ -179,7 +169,13 @@
 
 -(void)drawRectWith:(CGFloat)sx H:(CGFloat)sy Color:(UIColor*)color inView:(UIView*)inView{
 
-    inView.frame = CGRectMake(sx, sy, 40, 40);
+   
+    CGFloat hue = ( arc4random() % 256 / 256.0 );
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.13;
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.98;
+    color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+    
+    inView.frame = CGRectMake(sx, sy, 43, 43);
     inView.layer.borderColor = color.CGColor;
     inView.layer.backgroundColor = color.CGColor;
     inView.layer.borderWidth = .01f;
@@ -189,6 +185,7 @@
 }
 
 -(NSTimer *)creatTimer {
+    self.currentTimeInSeconds = 0;
     return [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
             }
 
@@ -196,27 +193,36 @@
     self.currentTimeInSeconds++;
     NSLog(@"%d",self.currentTimeInSeconds);
     NSLog (@" TIMER [ %@ ]",[self formattedTime:_currentTimeInSeconds]);
-    [self performSelector:@selector(closeApp) withObject:nil afterDelay:45.0];
+    if(self.currentTimeInSeconds==50){
+        
+        [timer invalidate];
+        [self alert];
+    }
 }
 
 -(void)alert{
-
+    
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Don't be greedy"
                                                                        message:@":D silly, you do not need to spend more time on another sillyness!"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"goodbye - go do something else" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  [self exit];
-                                                              }];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+    UIAlertAction * ok = [UIAlertAction actionWithTitle:@"OK, I do something else." style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [self performSelector:@selector(closeApp) withObject:nil afterDelay:4.0];
+        [self exit];
+    }];
+    
+    UIAlertAction * notOK = [UIAlertAction actionWithTitle:@"NOT OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [self creatTimer];
+    }];
+    
+    [alert addAction:ok];
+    [alert addAction:notOK];
+    [self presentViewController:alert animated:YES completion:nil];
 }
                                         
 -(void)closeApp{
     [UIView animateWithDuration: 5.5
                      animations:^{
                          self.view.alpha = 0.0;
-                         [self alert];
                      }];
 }
 
@@ -226,104 +232,9 @@
 
 - (NSString *)formattedTime:(int)totalSeconds
 {
-    
     int seconds = totalSeconds % 60;
     int minutes = (totalSeconds / 60) % 60;
     return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
 }
 
-/*
--(void)compareRectangle{
-
-
-    float cox = self.blue.origin.x;
-    float coy = self.blue.origin.y;
-    float cdx = self.blue.size.width;
-    float cdy = self.blue.size.height;
-    
-    float dox = self.yellow.origin.x;
-    float doy = self.yellow.origin.y;
-    float ddx = self.yellow.size.width;
-    float ddy = self.yellow.size.height;
-    
-    // create a fake frame cox coy is the geometry that close to the top left
-    //CGRect fakeRuler = CGRectMake(cox,coy,fabsf( dox - cox ),fabsf( doy - coy));
-
-    float tempOx = 0.0;
-    float tempOy = 0.0;
-    
-    float tempOx2 = 0.0;
-    float tempOy2 = 0.0;
-    
-    float tempDx = 0.0;
-    float tempDy = 0.0;
-    
-    if (cox < dox || coy < doy ){
-        tempOx = cox;
-        tempOy = coy;
-        tempDx = cdx;
-        tempDy = cdy;
-        
-        tempOx2 = dox;
-        tempOy2 = doy;
-        
-    } if(cox > dox || coy > doy ){
-        tempOx = dox;
-        tempOy = doy;
-        tempDx = ddx;
-        tempDy = ddy;
-        tempOx2 = cox;
-        tempOy2 = coy;
-    }
-
-    self.fakeRuler = CGRectMake(tempOx,tempOy,fabsf( tempOx2 - tempOx ),fabsf(tempOy2 - tempOy));
-    self.rulerBox.frame = self.fakeRuler;
-    self.rulerBox.layer.borderColor = [UIColor whiteColor].CGColor;
-    //[UIColor colorWithRed:1.0 green:1.0 blue:0.3 alpha:0.72];[UIColor colorWithWhite:1.0 alpha:0.5];
-    self.rulerBox.layer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.2].CGColor;
-    // self.rulerBox.layer.cornerRadius = 75;.CG
-    self.rulerBox.layer.borderWidth = 1.0f;
-    self.rulerBox.layer.masksToBounds = YES;
-    
-    //self.elfOx =
-    //[self gif];
-    
-//    self.cv.ww = tempOx;
-//    self.cv.wh = tempOy;
-
-    if (self.fakeRuler.size.width > tempDx || self.fakeRuler.size.height > tempDy){
-        NSLog(@"imageTwo does NOT overylay with imageOne");
-        [self.animationImageView removeFromSuperview];
-
-    }else{
-        NSLog(@"imageTwo does  overlay with imageOnw");
-    }
-}
-
-
-*/
-
-
-/*
- -(void)gif{
- 
- [self.animationImageView removeFromSuperview];
- 
- NSMutableArray * images = [[NSMutableArray alloc]init];
- 
- for (NSInteger i = 0; i < 29; i++) {
- NSString *imageName = [NSString stringWithFormat:@"elf-%ld.gif", (long)i];
- [images addObject:[UIImage imageNamed:imageName]];
- }
- //self.rulerBox.frame
- //self.animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 95, 186, 193)];
- self.animationImageView = [[UIImageView alloc] initWithFrame:self.rulerBox.frame];
- self.animationImageView.animationImages = images;
- self.animationImageView.animationDuration = 0.9;
- [self.view addSubview:self.animationImageView];
- 
- [self.animationImageView startAnimating];
- 
- }
- */
 @end
